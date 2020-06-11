@@ -1,17 +1,21 @@
-body{
-	background:url
+body {
+    background: url
 }
-#tr{
-	text-align:center;
-	font-size: 30px;
+
+#tr {
+    text-align: center;
+    font-size: 30px;
 }
-input[type=text]{
-	width:30%;
-	height:30px;
+
+input[type=text] {
+    width: 30%;
+    height: 30px;
 }
-#fields{
-	margin-left:40%;
+
+#fields {
+    margin-left: 40%;
 }
-input[type=submit]{
-	height:40px;
+
+input[type=submit] {
+    height: 40px;
 }

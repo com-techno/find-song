@@ -1,44 +1,53 @@
-ul{
-	padding: 0px;
-	margin: 0px;
+ul {
+    padding: 0px;
+    margin: 0px;
 }
-#menu{
-	width: 100%;
-	background-color: #FC9D00;
-	font-family: Arial;
-} 
-#menu li{
-	display: inline-block;
+
+#menu {
+    width: 100%;
+    background-color: #FC9D00;
+    font-family: Arial;
 }
-#menu a:link, #menu a:visited{
-	color: #FFFFFF; 
-	text-decoration: none; 
-	display: block;
-	padding: 0px 13px;
-	line-height: 40px;
-	text-align: center;
-	font-size: 15px;
+
+#menu li {
+    display: inline-block;
 }
-#menu a:hover{
-	color: #FFFFFF;
-	text-decoration: none;
-	background-color: #E93301;
+
+#menu a:link, #menu a:visited {
+    color: #FFFFFF;
+    text-decoration: none;
+    display: block;
+    padding: 0px 13px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 15px;
 }
-#menu h2{
-	padding-left: 20px;
+
+#menu a:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+    background-color: #E93301;
 }
-#menu input[type=search]{
-	margin-left:200px;
-	width:400px;
-	height: 30px;
+
+#menu h2 {
+    padding-left: 20px;
 }
-#menu input[type=submit]{
-	height: 30px;
-	width:70px;
+
+#menu input[type=search] {
+    margin-left: 200px;
+    width: 400px;
+    height: 30px;
 }
-#reg{
-	margin-left: 260px;
+
+#menu input[type=submit] {
+    height: 30px;
+    width: 70px;
 }
-#main{
-	margin-left:20%;
+
+#reg {
+    margin-left: 260px;
+}
+
+#main {
+    margin-left: 20%;
 }
