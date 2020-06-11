@@ -45,9 +45,23 @@ ul {
 }
 
 #reg {
-    margin-left: 260px;
+    margin-left: 140px;
 }
 
 #main {
     margin-left: 20%;
+}
+footer{
+	background-color: #d7d7d7;
+}
+#contacts{
+	text-align:center;
+	padding-bottom:15px;
+}
+#absite{
+	padding-left:20px;
+}
+#ast{
+	padding-top:15px;
+	font-size:20px;
 }

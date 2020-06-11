@@ -1,0 +1,16 @@
+	.hide{
+	position:absolute;
+	overflow:hidden;
+	z-index: -1;
+	width: 0.1px;
+	height: 0.1px;
+	opacity:0;
+}
+label{
+	display:inline-block;
+	cursor:pointer;
+	background-color: #FC9D00;
+	padding: 10px 20px;
+	color: white;
+	box-shadow:0 2px 5px 0;
+}
