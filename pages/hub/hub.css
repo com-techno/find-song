@@ -1,16 +1,8 @@
-ul {
-    padding: 0px;
-    margin: 0px;
-}
-
 #menu {
-    width: 100%;
+    width: fit-content;
+    position: sticky;
     background-color: #FC9D00;
     font-family: Arial;
-}
-
-#menu li {
-    display: inline-block;
 }
 
 #menu a:link, #menu a:visited {

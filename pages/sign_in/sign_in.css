@@ -3,9 +3,24 @@
     font-size: 30px;
 }
 
-input[type=text] {
+#okno {
+        width: 300px;
+        height: 50px;
+        text-align: center;
+        padding: 15px;
+        border: 3px solid #0000cc;
+        border-radius: 10px;
+        color: #0000cc;
+        display: none;
+      }
+
+.input{
     width: 30%;
     height: 30px;
+}
+
+input[type=text] {
+
 }
 
 #fields {
@@ -15,3 +30,5 @@ input[type=text] {
 input[type=submit] {
     height: 40px;
 }
+
+

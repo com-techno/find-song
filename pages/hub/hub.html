@@ -6,27 +6,41 @@
     <link rel="stylesheet" href="hub.css">
 </head>
 <body>
-<header>
-    <div id="menu">
-        <ul>
-            <li><h2>Music finder</h2></li>
-            <li><input type="search" name="q" placeholder="Введите несколько слов песни"></li>
-            <li><input type="submit" value="Найти"></li><!-- если заключю в форм, то все поплывет -->
-			<li><a href="../add_song/AddSong.html" id="reg">Добавить песню</a></li>
-            <li><a href="../sign_up/sign_up.html">Регистрация</a></li>
-            <li><a href="../sign_in/sign_in.html">Вход</a></li>
-        </ul>
-    </div>
-</header>
+<div id="menu">
+    <table>
+        <tr>
+            <td><img src="file.png" width="40px">
+                <!--<h2>Music&nbsp;finder</h2>--></img></td>
+            <td style="width: 100%"></td>
+            <td><a href="../add_song/AddSong.html" id="reg">Добавить&nbsp;песню</a></td>
+            <td><a href="../sign_up/sign_up.html">Регистрация</a></td>
+            <td><a href="../sign_in/sign_in.html">Вход</a></td>
+        </tr>
+    </table>
+</div>
+<form style="display: inline">
+                    <input type="search" name="q" placeholder="Введите несколько слов песни">
+                    <input type="submit" value="Найти">
+                </form>
 <div id="main">
     <h3>Каталог песен</h3>
 </div>
 <footer>
-	<div id="absite">
-		<p id="ast"><strong>О сайте</strong></p>
-		<p>На сайте вы сможете найти интересующую вас музыку всего по нескольким словам,добавить свою и слушать понравившуюся.</p>
-	</div>
-		<p id="contacts">Связаться с нами: finders@yandex.ru</p> <!-- создать и указать реальную почту -->
+    <table>
+        <tr>
+            <td>
+                <div id="about">
+                    <p id="ast"><strong>О сайте</strong></p>
+                    <p>На сайте вы сможете найти интересующую вас музыку всего по нескольким словам,добавить свою и
+                        слушать
+                        понравившуюся.</p>
+                </div>
+            </td>
+            <td>
+                <p id="contacts">Связаться: <a href="mailto:finders@yandex.ru">finders@yandex.ru</a></p> <!-- создать и указать реальную почту -->
+            </td>
+        </tr>
+    </table>
 </footer>
 </body>
 </html>
