@@ -8,7 +8,7 @@ body{
 }
 
 #menu {	
-    width: fit-content;
+    width: 100%;
     background-color: #FC9D00;
     font-family: Arial;
 }
@@ -40,25 +40,12 @@ body{
 #menu h2 {
     padding-left: 20px;
 }
-
-input[type=search] {
-	margin-top:50px;
-    margin-left: 425px;
-	margin-bottom:150px;
-    width: 300px;
-    height: 30px;
-}
-
-input[type=submit] {
-	margin-top:25px;
-    height: 30px;
-    width: 70px;
-}
-
 #reg {
-    margin-left: 680px;
+    margin-left: 600px;
 }
-
+footer{
+	background-color: #d7d7d7;
+}
 footer{
 	background-color: #d7d7d7;
 }
@@ -72,13 +59,6 @@ footer{
 #ast{
 	padding-top:15px;
 	font-size:20px;
-}
-h1{
-	margin: 100px 0px 50px 450px;
-}
-#in{
-	margin-left:300px;
-	font-size:25px;
 }
 #regbef{
 	background-color: #FC9D00;
@@ -103,4 +83,8 @@ h1{
 	left: 500px;
 	padding: 10px 50px 10px 50px;
 	transition: all 300ms;
+}
+img{
+	width: 40px;
+	height: 40px;
 }
