@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Music finder</title>
-    <link rel="stylesheet" href="hub.css">
+    <link rel="stylesheet" href="/static/css/search.css">
 </head>
 <body>
 <script type="text/javascript">
@@ -81,11 +81,14 @@
 		</form>
 	</div>
 </div>
-<div id="main" onclick="closemenu()">
-	<h1>Найти песню онлайн</h1>
-	<p id="in">Введите несколько слов из песни для поиска всех совпадений</p>
+<div id="sesys" onclick="closemenu()">
 	<input type="search" name="q" placeholder="Введите несколько слов песни">
 	<input type="submit" value="Найти">
+</div>
+<div id="content" onclick="closemenu()">
+	<p>
+		<img src="sad.png">
+	</p>
 </div>
 <footer>
 	<div id="absite">
@@ -93,6 +96,6 @@
 		<p>На сайте вы сможете найти интересующую вас музыку всего по нескольким словам,добавить свою и слушать понравившуюся.</p>
 	</div>
 		<p id="contacts">Связаться с нами: finders@yandex.ru</p> <!-- создать и указать реальную почту -->
-</footer>
+</footer>	
 </body>
 </html>

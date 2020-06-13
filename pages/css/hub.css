@@ -1,5 +1,5 @@
 body{
-	background-image:url(bg.jpg);
+	background-image:url(/static/assets/background_hub.jpg);
 }
 #main_ul {
 	display:flex;

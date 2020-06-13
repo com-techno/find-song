@@ -37,43 +37,62 @@ public class APIHandler implements HttpHandler {
             Headers headers = exchange.getRequestHeaders();
             switch (path[0]) {
                 case "":
-                    writeFile(exchange, new File(filepath + "hub\\", "hub.html"));
+                    writeFile(exchange, new File(filepath + "html\\", "hub.html"));
                     break;
                 case "login":
-                    writeFile(exchange, new File(filepath + "sign_in\\", "sign_in.html"));
+                    writeFile(exchange, new File(filepath + "html\\", "sign_in.html"));
                     break;
                 case "register":
-                    writeFile(exchange, new File(filepath + "sign_up\\", "sign_up.html"));
+                    writeFile(exchange, new File(filepath + "html\\", "sign_up.html"));
                     break;
-                case "song":
-                    writeFile(exchange, new File(filepath + "song\\", path[1] + ".mp3"));
+                case "addsong":
+                    writeFile(exchange, new File(filepath + "html\\", "add_song.html"));
+                    break;
+                case "static":
+                    if (path.length == 1)
+                        writeJson(exchange, "message", "Static files");
+                    else if (path.length == 2)
+                        writeJson(exchange, "message", "Error");
+                    else
+                        switch (path[1]) {
+                            case "css":
+                                writeFile(exchange, new File(filepath + "css\\", path[2]));
+                                break;
+                            case "song":
+                                writeFile(exchange, new File(filepath + "song\\", path[2]));
+                                break;
+                            case "assets":
+                                writeFile(exchange, new File(filepath + "assets\\", path[2]));
+                                break;
+                        }
                     break;
                 case "api":
-                    switch (path[1]) {
-                        case "info":
-                            writeJson(exchange, "message", "This is techno's API");
-                        case "sign_up":
-                            signUp(exchange, gson, database, json);
-                            break;
-                        case "sign_in":
-                            signIn(exchange, gson, database, json);
-                            break;
-                        case "new_song":
-                            checkToken(headers);
-                            addArticle(exchange, gson, database, json);
-                            break;
-                        case "get_article":
-                            checkToken(headers);
-                            getArticle(exchange, gson, database);
-                            break;
-                        case "delete_article":
-                            checkToken(headers);
-                            deleteArticle(exchange, gson, database, json);
-                            break;
-                        case "like":
-                            checkToken(headers);
-                            like(exchange, gson, database, json);
-                    }
+                    if (path.length == 1)
+                        writeJson(exchange, "message", "This is techno's API");
+                    else
+                        switch (path[1]) {
+                            case "sign_up":
+                                signUp(exchange, gson, database, json);
+                                break;
+                            case "sign_in":
+                                signIn(exchange, gson, database, json);
+                                break;
+                            case "new_song":
+                                checkToken(headers);
+                                addArticle(exchange, gson, database, json);
+                                break;
+                            case "get_article":
+                                checkToken(headers);
+                                getArticle(exchange, gson, database);
+                                break;
+                            case "delete_article":
+                                checkToken(headers);
+                                deleteArticle(exchange, gson, database, json);
+                                break;
+                            case "like":
+                                checkToken(headers);
+                                like(exchange, gson, database, json);
+                        }
                 default:
                     exchange.sendResponseHeaders(404, 0);
             }
