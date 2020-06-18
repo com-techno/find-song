@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class Main {
 
     public final static int PORT = 9999;
-    public final static String DOMAIN = "192.168.0.125";
+    public final static String DOMAIN = /*"192.168.0.125"*/"localhost";
     public final static String PATH = "G:\\find-song\\pages\\";
 
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {

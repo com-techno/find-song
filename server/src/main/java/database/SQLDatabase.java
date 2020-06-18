@@ -10,6 +10,7 @@ import util.DatabaseUtils;
 import util.HashUtils;
 
 import java.sql.*;
+import java.util.LinkedList;
 import java.util.List;
 
 import static util.HashUtils.encode;
@@ -25,8 +26,12 @@ public class SQLDatabase implements MyDatabase {
     @Override
     public void signUp(NewUserForm newUser) throws Exception {
         try {
-            db.execSqlUpdate("INSERT INTO user (login, passhash" + (newUser.getEmail() == null ? "" : ", email") + ") " +
-                    "VALUES (\"" + newUser.getLogin() + "\", \"" + new String(encode(newUser.getPassword())) + "\"" + (newUser.getEmail() == null ? "" : ",\"" + newUser.getEmail() + "\"") + ");");
+            String query = "INSERT INTO user (login, passhash" + (newUser.getEmail() == null ? "" : ", email") + ") " +
+                    "VALUES (\"" + newUser.getLogin() + "\", " +
+                    "\"" + new String(encode(newUser.getPassword())) + "\"" + (newUser.getEmail() == null ? "" : ", " +
+                    "\"" + newUser.getEmail() + "\"") + ");";
+            System.out.println(query);
+            db.execSqlUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -35,8 +40,9 @@ public class SQLDatabase implements MyDatabase {
 
     @Override
     public String signIn(User user) throws Exception {
-        String q = "SELECT * FROM user WHERE login=\"" + user.login + "\"";
-        ResultSet resSet = db.execSqlQuery(q);
+        String query = "SELECT * FROM user WHERE login=\"" + user.login + "\"";
+        System.out.println(query);
+        ResultSet resSet = db.execSqlQuery(query);
         if (resSet.isClosed()) throw new Exception("Account doesn't exists");
         String passhash = resSet.getString("passhash");
         resSet.close();
@@ -46,18 +52,43 @@ public class SQLDatabase implements MyDatabase {
     }
 
     @Override
-    public int addArticle(NewSongForm newSong) throws Exception {
-        return 0;
+    public void addSong(NewSongForm newSong) throws Exception {
+        try {
+            String query = "INSERT INTO song (author, title, lyrics, icon) " +
+                    "VALUES (\"" + newSong.getAuthor() + "\", " +
+                    "\"" + newSong.getTitle() + "\", " +
+                    "\"" + newSong.getText() + "\", " +
+                    "\"" + newSong.getIcon() + "\");";
+            System.out.println(query);
+            db.execSqlUpdate(query);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public List<Song> getArticles() throws Exception {
-        return null;
+    public Song getSong(int id) throws Exception {
+        String query = "SELECT * FROM song WHERE id=" + id + ";";
+        System.out.println(query);
+        ResultSet rs = db.execSqlQuery(query);
+        return new Song(rs.getString("author"), rs.getString("title"), rs.getString("icon"),
+                rs.getString("lyrics"), rs.getString("published"), rs.getString("edited"),
+                rs.getInt("id"), rs.getInt("likes"), rs.getInt("dislikes"));
     }
 
     @Override
-    public Song getArticle(int id) throws Exception {
-        return null;
+    public List<Song> getTop(int count) throws Exception {
+        List<Song> top = new LinkedList<>();
+        ResultSet rs = db.execSqlQuery("SELECT * INTO song ORDER BY likes, dislikes");
+        if (rs.isClosed()) throw new Exception("No data found");
+        for (int i = 0; i < count && !rs.isClosed(); i++) {
+            Song topSong = new Song(rs.getString("author"), rs.getString("title"), rs.getString("icon"),
+                    rs.getString("lyrics"), rs.getString("published"), rs.getString("edited"),
+                    rs.getInt("id"), rs.getInt("likes"), rs.getInt("dislikes"));
+            top.add(topSong);
+            rs.next();
+        }
+        return top;
     }
 
     @Override
@@ -66,7 +97,7 @@ public class SQLDatabase implements MyDatabase {
     }
 
     @Override
-    public void deleteArticle(DeleteSongForm deleteArticle) throws Exception {
-
+    public void deleteSong(DeleteSongForm deleteArticle) throws Exception {
+        
     }
 }

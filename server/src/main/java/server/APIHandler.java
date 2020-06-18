@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static util.ArticleUtils.*;
+import static util.SongUtils.*;
 import static util.DecodeUtils.writeJson;
 import static util.DecodeUtils.writeFile;
 import static util.StreamUtils.readStream;
@@ -58,12 +58,15 @@ public class APIHandler implements HttpHandler {
                             case "css":
                                 writeFile(exchange, new File(filepath + "css\\", path[2]));
                                 break;
+                            case  "js":
+                                writeFile(exchange, new File(filepath + "js\\", path[2]));
                             case "song":
                                 writeFile(exchange, new File(filepath + "song\\", path[2]));
                                 break;
                             case "assets":
                                 writeFile(exchange, new File(filepath + "assets\\", path[2]));
                                 break;
+                            default: writeJson(exchange, "error", "Could'not find file");
                         }
                     break;
                 case "api":
@@ -79,19 +82,25 @@ public class APIHandler implements HttpHandler {
                                 break;
                             case "new_song":
                                 checkToken(headers);
-                                addArticle(exchange, gson, database, json);
+                                addSong(exchange, gson, database, json);
                                 break;
-                            case "get_article":
+                            case "get_song":
                                 checkToken(headers);
                                 getArticle(exchange, gson, database);
                                 break;
-                            case "delete_article":
+                            case "delete_song":
                                 checkToken(headers);
-                                deleteArticle(exchange, gson, database, json);
+                                deleteSong(exchange, gson, database, json);
                                 break;
                             case "like":
                                 checkToken(headers);
                                 like(exchange, gson, database, json);
+                            case "top":
+                                checkToken(headers);
+                                top(exchange, gson, database);
+                            case "search":
+                                checkToken(headers);
+                                
                         }
                 default:
                     exchange.sendResponseHeaders(404, 0);

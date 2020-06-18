@@ -9,7 +9,9 @@ public class Song {
 
     String author;
     String title;
+
     String icon;
+
     String audio;
     String text;
     TimeStamp publishTime;
@@ -17,6 +19,20 @@ public class Song {
     int id;
     int likes;
     int dislikes;
+
+
+    public Song(String author, String title, String icon, String text, String publishTime, String editTime, int id, int likes, int dislikes) {
+        this.author = author;
+        this.title = title;
+        this.icon = icon;
+        this.audio = audio;
+        this.text = text;
+        this.publishTime = new TimeStamp(publishTime);
+        this.editTime = new TimeStamp(editTime);
+        this.id = id;
+        this.likes = likes;
+        this.dislikes = dislikes;
+    }
 
     public Song(NewSongForm newArticle) throws Exception {
         checkCompletion(newArticle);

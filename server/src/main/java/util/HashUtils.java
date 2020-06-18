@@ -36,6 +36,11 @@ public class HashUtils {
         return false;
     }
 
+    public static String getLoginFromToken(String token){
+        String[] data = URLDecoder.decode(token).split("@");
+        return data[1];
+    }
+
     private static String genHash(String username, long expires) throws Exception {
         return URLEncoder.encode(new String(encode(username + expires + "techno salt")));
     }
