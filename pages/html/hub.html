@@ -58,6 +58,31 @@
             /*});*/
         });
 
+        function submitSearch() {
+            const search = $("#search").val();
+
+            $.ajax({
+                url: "/api/search",
+                query: {
+                    query: search
+                },
+                method: "POST",
+                converters: jQuery.parseJSON,
+                dataType: "json",
+                data: JSON.stringify({
+                    login: username,
+                    passHash: password,
+                }),
+                success: login
+            });
+
+        }
+
+        function submitAS() {
+            const 
+
+        }
+
         function submitLI() {
             const username = $("#un-si").val();
             const password = $("#pw-si").val();
@@ -79,8 +104,8 @@
             $("#un-si").text("");
             $("#pw-si").text("");
             function login(jxXHR, textStatus) {
-                console.log(jxXHR.data);
-                console.log(jxXHR.error);
+                console.log(jxXHR.token);
+                //console.log(jxXHR.error);
                 /*if (jxXHR.token != null)
                     logged_in = jxXHR.token;*/
             }
@@ -175,8 +200,8 @@
 <div id="main" onclick="closemenu()">
     <h1>Найти песню онлайн</h1>
     <p id="in">Введите несколько слов из песни для поиска всех совпадений</p>
-    <input type="search" name="q" placeholder="Введите несколько слов песни">
-    <input type="submit" value="Найти">
+    <input type="search" placeholder="Введите несколько слов песни">
+    <input type="submit" value="Найти" id="search" onclick="submitSearch()">
 </div>
 <footer>
     <div id="absite">
