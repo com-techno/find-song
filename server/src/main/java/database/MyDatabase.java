@@ -13,6 +13,7 @@ public interface MyDatabase {
     Song getSong(int id) throws Exception;
     List<Song> getTop(int count) throws Exception;
     void like(LikeForm like) throws Exception;
+    List<Song> search(String query) throws Exception;
 
     void deleteSong(DeleteSongForm deleteSong) throws Exception;
 }

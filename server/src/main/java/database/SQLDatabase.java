@@ -9,6 +9,7 @@ import objects.forms.NewUserForm;
 import util.DatabaseUtils;
 import util.HashUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class SQLDatabase implements MyDatabase {
         try {
             String query = "INSERT INTO user (login, passhash" + (newUser.getEmail() == null ? "" : ", email") + ") " +
                     "VALUES (\"" + newUser.getLogin() + "\", " +
-                    "\"" + new String(encode(newUser.getPassword())) + "\"" + (newUser.getEmail() == null ? "" : ", " +
+                    "\"" + new String(encode(newUser.getPassword()), StandardCharsets.UTF_16) + "\"" + (newUser.getEmail() == null ? "" : ", " +
                     "\"" + newUser.getEmail() + "\"") + ");";
             System.out.println(query);
             db.execSqlUpdate(query);
@@ -40,13 +41,14 @@ public class SQLDatabase implements MyDatabase {
 
     @Override
     public String signIn(User user) throws Exception {
-        String query = "SELECT * FROM user WHERE login=\"" + user.login + "\"";
+        String pass = new String(encode(user.passHash), StandardCharsets.UTF_16);
+        String query = "SELECT * FROM user WHERE login=\'" + user.login + "\'";
         System.out.println(query);
         ResultSet resSet = db.execSqlQuery(query);
         if (resSet.isClosed()) throw new Exception("Account doesn't exists");
         String passhash = resSet.getString("passhash");
         resSet.close();
-        if (new String(encode(user.passHash)).equals(passhash))
+        if (pass.equals(passhash))
             return HashUtils.getToken(user);
         else throw new Exception("Password is incorrect");
     }
@@ -61,7 +63,7 @@ public class SQLDatabase implements MyDatabase {
                     "\"" + newSong.getIcon() + "\");";
             System.out.println(query);
             db.execSqlUpdate(query);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -93,11 +95,55 @@ public class SQLDatabase implements MyDatabase {
 
     @Override
     public void like(LikeForm like) throws Exception {
+        String query = "UPDATE song SET ";
+        switch (like.getLike()){
+            case -2:
+                query+="dislikes=dislikes-1 WHERE dislikes != 0 AND id= ";
+            case -1:
+                query+="dislikes=dislikes+1 WHERE id= ";
+                break;
+            case 1:
+                query+="likes=likes+1 WHERE id= ";
+                break;
+            case 2:
+                query+="likes=likes-1 WHERE likes != 0 AND id= ";
+                break;
+        }
+        query+= like.getArticleId();
+        db.execSqlUpdate(query);
+    }
 
+    @Override
+    public List<Song> search(String query) throws Exception {
+        query = query.replace(" ", "")
+                .replace(",", "")
+                .replace(".", "")
+                .replace(":", "");
+        List<Song> top = new LinkedList<>();
+        ResultSet rs = db.execSqlQuery("SELECT * INTO song");
+        if (rs.isClosed()) throw new Exception("No data found");
+        do {
+            String lyrics = rs.getString("lyrics")
+                    .replace(" ", "")
+                    .replace(",", "")
+                    .replace(".", "")
+                    .replace(":", "");
+            if (lyrics.contains(query)) {
+                Song topSong = new Song(rs.getString("author"), rs.getString("title"), rs.getString("icon"),
+                        rs.getString("lyrics"), rs.getString("published"), rs.getString("edited"),
+                        rs.getInt("id"), rs.getInt("likes"), rs.getInt("dislikes"));
+                top.add(topSong);
+                rs.next();
+            }
+
+        } while (!rs.isClosed());
+        return top;
     }
 
     @Override
     public void deleteSong(DeleteSongForm deleteArticle) throws Exception {
-        
+        if (db.execSqlQuery("SELECT author INTO song WHERE id=" + deleteArticle.getSongId()).getString("author").equals(deleteArticle.getAuthor()))
+            db.execSqlUpdate("DELETE FROM song WHERE id=" + deleteArticle.getSongId());
+        else throw new Exception("It is not your song");
     }
 }

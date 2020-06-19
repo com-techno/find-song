@@ -100,6 +100,7 @@ public class APIHandler implements HttpHandler {
                                 top(exchange, gson, database);
                             case "search":
                                 checkToken(headers);
+                                search(exchange, gson, database);
                                 
                         }
                 default:

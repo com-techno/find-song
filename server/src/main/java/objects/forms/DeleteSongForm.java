@@ -2,12 +2,12 @@ package objects.forms;
 
 public class DeleteSongForm {
 
-    int articleId;
+    int songId;
     String userId;
 
 
-    public int getArticleId() {
-        return articleId;
+    public int getSongId() {
+        return songId;
     }
 
     public String getAuthor() {

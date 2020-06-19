@@ -2,113 +2,169 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="icon" href="/static/assets/logotip.png">
     <title>Music finder</title>
     <link rel="stylesheet" type="text/css" href="static/css/hub.css">
-    <script>
-        var logged_in = false;
+    <script type="text/javascript" src="static/js/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-        function openregmenu() {
-            if (logged_in) {
-                // Open add playlist page
+            $("#su").removeClass("active");
+            var logged_in = null;
+            $("#create-pl-btn").click('login', function () {
+                logged_in != null ? document.location.href = "/createpl" : openSignUpForm("Для того, чтобы создавать плейлисты, вам необходимо авторизоваться.")
+                $(this).removeAttr("checked");
+            });
+            $(document).on('click', "#add-song-btn", function () {
+                logged_in != null ? document.location.href = "/addsong" : openSignUpForm("Для того, чтобы добавлять песни, вам необходимо авторизоваться.")
+            });
+            $(document).on('click', "#si-btn", function () {
+                openSignInForm()
+            });
+            $("#su-btn").on('click', function () {
+                openSignUpForm("")
+            });
+
+            $("#pw-su").on('change', function () {
+                if (this.text != $("#pwr-su").on()
+            })
+
+            $("#su-form").submit(function () {
+                const username = $("#un-su").val();
+                const password = $("#pw-su").val();
+                const requestSUURL = "/api/sign_up";
+                const requestSU = new XMLHttpRequest();
+
+                const requestSIURL = "/api/sign_in";
+                const requestSI = new XMLHttpRequest();
+
+                requestSU.open("POST", requestSUURL);
+                requestSU.send("{\"login\":\"" + username + "\",\"password\":\"" + password + "\"}");
+
+                requestSI.open("POST", requestSIURL);
+                requestSI.send("{\"login\":\"" + username + "\",\"password\":\"" + password + "\"}");
+                requestSI.onload(function () {
+                    console.log(requestSI.responseText);
+                    const token = JSON.parse(requestSI.responseText).token;
+                    if (token != null) logged_in = token;
+                    console.log(token);
+                });
+            });
+            /* $("#si-form").submit(*/
+            /*});*/
+        });
+
+        function submitLI() {
+            const username = $("#un-si").val();
+            const password = $("#pw-si").val();
+            console.log(username);
+            console.log(password);
+            $.ajax({
+                url: "/api/sign_in",
+                method: "POST",
+                converters: jQuery.parseJSON,
+                dataType: "json",
+                data: JSON.stringify({
+                    login: username,
+                    passHash: password
+                }),
+                success: login
+            });
+
+            function login(jxXHR, textStatus) {
+                console.log(jxXHR.data);
+                console.log(jxXHR.error);
+                /*if (jxXHR.token != null)
+                    logged_in = jxXHR.token;*/
+            }
+
+            /*const requestSIURL = "/api/sign_in";
+            const requestSI = new XMLHttpRequest();
+
+            requestSI.open("POST", requestSIURL);
+            requestSI.send("{\"login\":\"" + username + "\",\"password\":\"" + password + "\"}");
+            requestSI.onload(function () {
+                console.log(requestSI.responseText);
+                const token = JSON.parse(requestSI.responseText).token;
+                if (token != null) logged_in = token;
+                console.log(token);*/
+        }
+
+        function openSignUpForm(message) {
+            $("#si").removeClass("active");
+            const msg = $("#su-msg");
+            const su = $("#su");
+            if (su.hasClass("active")) {
+                if (msg.eq(0).text() === message.toString())
+                    su.removeClass("active");
             } else {
-                document.getElementById("enterance").classList.remove('active');
-                document.getElementById("regbef").classList.add('active');
-                document.getElementById("ptext").innerHTML = "Для того чтобы создать собственную библиотеку,";
-                document.getElementById("ptext2").innerHTML = "вам необходимо зарегистрироваться";
+                su.addClass("active");
+            }
+            msg.text(message);
+        }
+
+        function openSignInForm() {
+            $("#su").removeClass("active");
+            const si = $("#si");
+            if (si.hasClass("active")) {
+                si.removeClass("active");
+            } else {
+                si.addClass("active");
             }
         }
 
-        function login() {
-            /*var requestURL = 'https://2e6ef2b1188d.ngrok.io/api/sign_in';
-            var request = new XMLHttpRequest();
-
-            request.open('POST', requestURL);
-            request.responseType = 'json';
-
-            request.request.send("{" );
-
-            request.onload = function () {
-                var response = JSON.parse(request.responseText);
-                if (response.token != null) logged_in = true;
-            }*/
-
-            console.log("ok")
-        }
-
-
-        function closemenu() {
-            document.getElementById("regbef").classList.remove('active');
-            document.getElementById("enterance").classList.remove('active');
-        }
-
-        function openregmenu1() {
-            document.getElementById("enterance").classList.remove('active');
-            document.getElementById("regbef").classList.add('active');
-            document.getElementById("ptext").innerHTML = "Для того чтобы добавить песню,";
-            document.getElementById("ptext2").innerHTML = "вам необходимо зарегистрироваться";
-        }
-
-        function openregmenu2() {
-            document.getElementById("enterance").classList.remove('active');
-            document.getElementById("regbef").classList.add('active');
-            document.getElementById("ptext").innerHTML = "";
-            document.getElementById("ptext2").innerHTML = "";
-        }
-
-        function openentmenu() {
-            document.getElementById("regbef").classList.remove('active');
-            document.getElementById("enterance").classList.add('active');
-        }
     </script>
 </head>
 <body>
-<header>
-    <div id="menu">
-        <ul id="main_ul">
-            <li><h2>Music finder</h2></li>
-            <li><a href="##" id="reg" onclick="openregmenu()">Создать&nbsp;библиотеку</a></li>
-            <li><a href="##" onclick="openregmenu1()">Добавить песню</a></li>
-            <li><a href="##" onclick="openentmenu()">Войти</a></li>
-            <li><a href="##" onclick="openregmenu2()">Регистрация</a></li>
-        </ul>
-    </div>
-</header>
-<div id="regbef">
-    <p id="ptext">Для того чтобы создать собственную библиотеку,</p>
-    <p id="ptext2">вам необходимо зарегистрироваться</p>
-    <div id="tr">
-        <p>Регистрация</p>
-    </div>
-    <div id="fields">
-        <form action="" method="get">
-            <div id="main">
-                <p>Логин</p>
-                <input type="text" name="login">
-                <p>Email</p>
-                <input type="text" name="email">
-                <p>Пароль</p>
-                <input type="text" name="pas">
-                <p>Повторите пароль еще раз</p>
-                <input type="text" name="reppas">
-                <p><input type="submit" value="Зарегистрироваться"></p>
-            </div>
-        </form>
-    </div>
+<table class="nav-panel">
+    <tr>
+        <td class="nav-title"><h2>Music&nbsp;finder</h2></td>
+        <td style="width: 100%"></td>
+        <td>
+            <button id="create-pl-btn" class="nav-btn" type="button">Создать&nbsp;библиотеку
+            </button>
+        </td>
+        <td>
+            <button id="add-song-btn" class="nav-btn" type="button">Добавить&nbsp;песню</button>
+        </td>
+        <td>
+            <button id="si-btn" class="nav-btn" type="button">Войти</button>
+        </td>
+        <td>
+            <button id="su-btn" class="nav-btn" type="button">Регистрация</button>
+        </td>
+    </tr>
+</table>
+<!--Регистрация start-->
+<div id="su">
+    <span id="su-msg"></span>
+    <p>Регистрация</p>
+    <form id="su-form">
+        <!--<div id="main">-->
+        <p>Логин</p>
+        <input type="text" id="un-su">
+        <p>Email</p>
+        <input type="email" id="email-su">
+        <p>Пароль</p>
+        <input type="password" id="pw-su">
+        <p>Повторите пароль еще раз</p>
+        <input type="password" id="pwr-su">
+        <p><input type="submit" value="Зарегистрироваться"></p>
+        <p>
+            <button id="su-si-btn" type="button">Уже зарегистрирован? Войти</button>
+        </p>
+        <!--</div>-->
+    </form>
 </div>
-<form >
-    <div id="enterance">
-        <div id="te">
-            <p>Вход</p>
-        </div>
-        <div id="fields">
-            <p>Логин</p>
-            <input type="text" name="loginen">
-            <p>Пароль</p>
-            <input type="text" name="pasen">
-            <p><input type="submit" value="Войти"></p>
-        </div>
-    </div>
-</form>
+<!--Регистрация end-->
+<div id="si">
+    <p>Вход</p>
+        <p>Логин</p>
+        <input type="text" id="un-si">
+        <p>Пароль</p>
+        <input type="text" id="pw-si">
+        <p><input type="submit" value="Войти" onclick="submitLI()"></p>
+</div>
 <div id="main" onclick="closemenu()">
     <h1>Найти песню онлайн</h1>
     <p id="in">Введите несколько слов из песни для поиска всех совпадений</p>
@@ -120,8 +176,10 @@
         <p id="ast"><strong>О сайте</strong></p>
         <p>На сайте вы сможете найти интересующую вас музыку всего по нескольким словам,добавить свою и слушать
             понравившуюся.</p>
+        <p id="contacts">Связаться с нами: music.finder.adt@gmail.com</p>
+
     </div>
-    <p id="contacts">Связаться с нами: musicfinders@yandex.ru</p> <!-- создать и указать реальную почту -->
+
 </footer>
 </body>
 </html>
