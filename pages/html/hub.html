@@ -24,14 +24,18 @@
             $("#su-btn").on('click', function () {
                 openSignUpForm("")
             });
+/*
 
             $("#pw-su").on('change', function () {
                 if (this.text != $("#pwr-su").on()
-            })
+            });
+*/
 
             $("#su-form").submit(function () {
                 const username = $("#un-su").val();
                 const password = $("#pw-su").val();
+                const email = $("#email-su").val();
+
                 const requestSUURL = "/api/sign_up";
                 const requestSU = new XMLHttpRequest();
 
@@ -39,7 +43,7 @@
                 const requestSI = new XMLHttpRequest();
 
                 requestSU.open("POST", requestSUURL);
-                requestSU.send("{\"login\":\"" + username + "\",\"password\":\"" + password + "\"}");
+                requestSU.send("{\"login\":\"" + username + "\",\"password\":\"" + password + "\", \"email\":\"" + email + "\"}");
 
                 requestSI.open("POST", requestSIURL);
                 requestSI.send("{\"login\":\"" + username + "\",\"password\":\"" + password + "\"}");
@@ -57,6 +61,7 @@
         function submitLI() {
             const username = $("#un-si").val();
             const password = $("#pw-si").val();
+
             console.log(username);
             console.log(password);
             $.ajax({
@@ -66,11 +71,13 @@
                 dataType: "json",
                 data: JSON.stringify({
                     login: username,
-                    passHash: password
+                    passHash: password,
                 }),
                 success: login
             });
 
+            $("#un-si").text("");
+            $("#pw-si").text("");
             function login(jxXHR, textStatus) {
                 console.log(jxXHR.data);
                 console.log(jxXHR.error);

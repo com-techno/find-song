@@ -7,12 +7,10 @@ import objects.forms.NewSongForm;
 
 public class Song {
 
+    String singer;
     String author;
     String title;
-
     String icon;
-
-    String audio;
     String text;
     TimeStamp publishTime;
     TimeStamp editTime = null;
@@ -20,12 +18,10 @@ public class Song {
     int likes;
     int dislikes;
 
-
     public Song(String author, String title, String icon, String text, String publishTime, String editTime, int id, int likes, int dislikes) {
         this.author = author;
         this.title = title;
         this.icon = icon;
-        this.audio = audio;
         this.text = text;
         this.publishTime = new TimeStamp(publishTime);
         this.editTime = new TimeStamp(editTime);
@@ -36,7 +32,7 @@ public class Song {
 
     public Song(NewSongForm newArticle) throws Exception {
         checkCompletion(newArticle);
-        this.author = newArticle.getAuthor();
+        this.singer = newArticle.getSinger();
         this.title = newArticle.getTitle();
         this.text = newArticle.getText();
         this.icon = newArticle.getIcon();
@@ -44,7 +40,7 @@ public class Song {
     }
 
     public void checkCompletion(NewSongForm newArticle) throws Exception {
-        if (newArticle.getAuthor() == null || newArticle.getTitle() == null || newArticle.getText() == null)
+        if (newArticle.getTitle() == null || newArticle.getText() == null)
             throw new Exception("Form is incomplete");
     }
 
@@ -64,7 +60,6 @@ public class Song {
         this.id = id;
     }
 
-
     public void changeLikes(LikeForm like) {
         switch (like.getLike()) {
             case -2:
@@ -80,5 +75,21 @@ public class Song {
                 if (likes != 0) likes--;
                 break;
         }
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getSinger() {
+        return singer;
     }
 }

@@ -20,15 +20,15 @@ public class DatabaseUtils {
     public void execSqlUpdate(String sql) throws SQLException {
         conn.createStatement().executeUpdate(sql);
     }
+
     public ResultSet execSqlQuery(String sql) throws SQLException {
         return conn.createStatement().executeQuery(sql);
     }
 
     // --------Закрытие--------
-    public void CloseDB() throws ClassNotFoundException, SQLException
-    {
+    public void CloseDB() throws ClassNotFoundException, SQLException {
         conn.close();
-      //  statement.close();
+        //  statement.close();
     }
 
 }

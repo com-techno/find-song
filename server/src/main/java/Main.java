@@ -16,14 +16,14 @@ public class Main {
     public final static String PATH = "G:\\find-song\\pages\\";
 
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(DOMAIN,PORT),0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(DOMAIN, PORT), 0);
 
-        server.createContext("/",new APIHandler(PATH));
+        server.createContext("/", new APIHandler(PATH));
 
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
         server.setExecutor(executor);
 
         server.start();
-        System.out.println("Server started at http://"+DOMAIN+":"+PORT);
+        System.out.println("Server started at http://" + DOMAIN + ":" + PORT);
     }
 }

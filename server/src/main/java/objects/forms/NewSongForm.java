@@ -1,21 +1,23 @@
 package objects.forms;
 
+import static util.HashUtils.getLoginFromToken;
+
 public class NewSongForm {
 
-    String author;
+    String singer;
     String title;
     String text;
     String icon;
 
-    public String getAuthor() {
-        return author;
+    public String getSinger() {
+        return singer;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getText(){
+    public String getText() {
         return text;
     }
 

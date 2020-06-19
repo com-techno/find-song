@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static util.HashUtils.encode;
+import static util.HashUtils.getLoginFromToken;
 
 public class SQLDatabase implements MyDatabase {
 
@@ -54,10 +55,11 @@ public class SQLDatabase implements MyDatabase {
     }
 
     @Override
-    public void addSong(NewSongForm newSong) throws Exception {
+    public void addSong(Song newSong) throws Exception {
         try {
-            String query = "INSERT INTO song (author, title, lyrics, icon) " +
+            String query = "INSERT INTO song (author, singer, title, lyrics, icon) " +
                     "VALUES (\"" + newSong.getAuthor() + "\", " +
+                    "\"" + newSong.getSinger() + "\", " +
                     "\"" + newSong.getTitle() + "\", " +
                     "\"" + newSong.getText() + "\", " +
                     "\"" + newSong.getIcon() + "\");";
@@ -96,20 +98,20 @@ public class SQLDatabase implements MyDatabase {
     @Override
     public void like(LikeForm like) throws Exception {
         String query = "UPDATE song SET ";
-        switch (like.getLike()){
+        switch (like.getLike()) {
             case -2:
-                query+="dislikes=dislikes-1 WHERE dislikes != 0 AND id= ";
+                query += "dislikes=dislikes-1 WHERE dislikes != 0 AND id= ";
             case -1:
-                query+="dislikes=dislikes+1 WHERE id= ";
+                query += "dislikes=dislikes+1 WHERE id= ";
                 break;
             case 1:
-                query+="likes=likes+1 WHERE id= ";
+                query += "likes=likes+1 WHERE id= ";
                 break;
             case 2:
-                query+="likes=likes-1 WHERE likes != 0 AND id= ";
+                query += "likes=likes-1 WHERE likes != 0 AND id= ";
                 break;
         }
-        query+= like.getArticleId();
+        query += like.getArticleId();
         db.execSqlUpdate(query);
     }
 

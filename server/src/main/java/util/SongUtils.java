@@ -16,6 +16,8 @@ public class SongUtils {
 
     public static void addSong(HttpExchange exchange, Gson gson, MyDatabase database, String json) throws Exception {
         NewSongForm newSong = gson.fromJson(json, NewSongForm.class);
+        Song song = new Song(newSong);
+        song.setAuthor(exchange.getRequestHeaders().getFirst("Token"));
         writeJson(exchange, "message", "Added");
     }
 
